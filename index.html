@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WhatsApp Clone — Full Screen Responsive</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: linear-gradient(135deg, #43cea2, #185a9d);
+    }
+    .app-wrapper {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+    /* Sidebar */
+    .sidebar {
+      background: #1b1f3a;
+      color: white;
+      width: 280px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .sidebar-top { text-align: center; }
+    .profile-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #43cea2; }
+    .sidebar h5 { margin-top: 10px; font-weight: 600; }
+    .sidebar select, .sidebar input { margin-top: 8px; }
+    .sidebar-bottom { margin-top: 20px; }
+    .language-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 10px; }
+
+    /* Chat Area */
+    .chat-area { flex: 1; display: flex; flex-direction: column; background: #f4f6f9; }
+    .chat-header { background: #2c3e50; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 500; }
+    .chat-window { flex: 1; overflow-y: auto; padding: 20px; background-color: white;}
+    .message { max-width: 75%; padding: 12px 16px; border-radius: 20px; margin-bottom: 12px; font-size: 15px; line-height: 1.4; display: inline-block; }
+    .from-me { background: #43cea2; color: #fff; margin-left: auto; border-bottom-right-radius: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+    .from-them { background: #ffffff; color: #333; margin-right: auto; border-bottom-left-radius: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+
+    .chat-input { display: flex; padding: 12px; background: #ffffff; border-top: 1px solid #ddd; }
+    .chat-input input { flex: 1; border-radius: 30px; padding: 10px 20px; border: 1px solid #ccc; font-size: 15px; }
+    .chat-input button { margin-left: 10px; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; background: #43cea2; color: white; border: none; font-size: 18px; }
+    .chat-input button:hover { background: #3ab58d; }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+      .sidebar { display: none; }
+    }
+
+    /* Floating language icon */
+    .floating-lang {
+      display: none;
+      position: fixed;
+      bottom: 100px;
+      right: 10px;
+      z-index: 1000;
+    }
+    @media (max-width: 991px) {
+      .floating-lang { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-top">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop" class="profile-avatar" alt="avatar">
+        <h5 id="sidebarName">Arun Kumar</h5>
+        <span class="badge bg-light text-dark" id="sidebarLang">EN</span>
+
+        <div class="mt-4">
+          <label class="form-label">Display Name</label>
+          <input id="displayName" class="form-control" value="Arun Kumar">
+        </div>
+        <div class="mt-3">
+          <label class="form-label">Preferred Language</label>
+          <select id="preferredLang" class="form-select">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+            <option value="ta">Tamil</option>
+            <option value="es">Spanish</option>
+          </select>
+        </div>
+        <button id="saveProfile" class="btn btn-success mt-3 w-100">Save Profile</button>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="language-card">
+          <h6>🌐 Language Chat Converter</h6>
+          <select id="targetLang" class="form-select mb-2">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+            <option value="ta">Tamil</option>
+            <option value="es">Spanish</option>
+          </select>
+          <button id="translateBtn" class="btn btn-primary w-100 mb-2">Translate Latest</button>
+          <button id="translateAllBtn" class="btn btn-outline-light w-100">Translate All</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-area">
+      <div class="chat-header">
+        <div>
+          <strong id="headerName">Arun Kumar</strong>
+          <small class="d-block" id="headerStatus">Online</small>
+        </div>
+      </div>
+
+      <div class="chat-window" id="chatWindow">
+        <div class="message from-them">Hey! How are you?</div>
+        <div class="message from-me">I'm good — working on the new project.</div>
+        <div class="message from-them">That's awesome. Need any help?</div>
+      </div>
+
+      <div class="chat-input">
+        <input id="messageInput" type="text" placeholder="Type a message...">
+        <button id="sendBtn">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Language Icon -->
+  <div class="floating-lang d-md-none">
+    <div class="dropdown text-end">
+      <button class="btn btn-light btn-lg" type="button" id="langDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">🌐</button>
+      <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="langDropdownBtn" style="min-width: 220px;">
+
+        <!-- Preferred Language -->
+        <label class="form-label">Preferred Language</label>
+        <select id="dropdownPreferredLang" class="form-select mb-2">
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="ta">Tamil</option>
+          <option value="es">Spanish</option>
+        </select>
+
+        <!-- Target Language -->
+        <label class="form-label mt-2">Translate To</label>
+        <select id="dropdownTargetLang" class="form-select mb-2">
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="ta">Tamil</option>
+          <option value="es">Spanish</option>
+        </select>
+
+        <button id="dropdownTranslateBtn" class="btn btn-primary w-100 mb-2">Translate Latest</button>
+        <button id="dropdownTranslateAllBtn" class="btn btn-outline-dark w-100">Translate All</button>
+      </ul>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const chatWindow = document.getElementById('chatWindow');
+const messageInput = document.getElementById('messageInput');
+const sendBtn = document.getElementById('sendBtn');
+const displayName = document.getElementById('displayName');
+const preferredLang = document.getElementById('preferredLang');
+
+// Send message
+sendBtn.addEventListener('click', () => {
+  const txt = messageInput.value.trim();
+  if(!txt) return;
+  appendMessage(txt,'me');
+  messageInput.value='';
+  scrollToBottom();
+});
+messageInput.addEventListener('keydown', e => { if(e.key==='Enter') sendBtn.click(); });
+
+// Update profile
+document.getElementById('saveProfile').addEventListener('click',()=>{
+  document.getElementById('sidebarName').textContent=displayName.value;
+  document.getElementById('headerName').textContent=displayName.value;
+  document.getElementById('sidebarLang').textContent=preferredLang.value.toUpperCase();
+});
+
+function appendMessage(text,who='them'){
+  const div=document.createElement('div');
+  div.className='message '+(who==='me'?'from-me':'from-them');
+  div.textContent=text;
+  chatWindow.appendChild(div);
+}
+function scrollToBottom(){ chatWindow.scrollTop=chatWindow.scrollHeight; }
+
+// Demo dictionary
+const demoDict={
+  hi: {"Hey! How are you?":"हे! कैसे हो?","I'm good — working on the new project.":"मैं ठीक हूँ — नए प्रोजेक्ट पर काम कर रहा हूँ।","That's awesome. Need any help?":"यह शानदार है। क्या मदद चाहिए?"},
+  ta: {"Hey! How are you?":"ஹே! எப்படி இருக்கிறாய்?","I'm good — working on the new project.":"நான் நலமாக இருக்கிறேன் — புதிய திட்டத்தில் வேலை செய்கிறேன்.","That's awesome. Need any help?":"அது அருமை. உதவி வேண்டுமா?"},
+  es: {"Hey! How are you?":"¡Hola! ¿Cómo estás?","I'm good — working on the new project.":"Estoy bien — trabajando en el nuevo proyecto.","That's awesome. Need any help?":"Eso es genial. ¿Necesitas ayuda?"}
+};
+
+// Mock translator
+function mockTranslate(text,target){
+  if(!target||target==='en') return text;
+  const dict=demoDict[target]||{};
+  if(dict[text]) return dict[text];
+  const common={hi:{'hello':'नमस्ते','hey':'हे','how':'कैसे','are':'है','you':'तुम'},
+                ta:{'hello':'வணக்கம்','hey':'ஹே','how':'எப்படி','are':'உள்ளது','you':'நீ'},
+                es:{'hello':'hola','hey':'hola','how':'cómo','are':'estás','you':'tú'}};
+  const words=text.split(/(\s+)/);
+  const map=common[target]||{};
+  return words.map(w=>{ const key=w.toLowerCase().replace(/[^a-zA-Z\u0900-\u0BFF\u0B80-\u0BFF]/g,''); return map[key]?map[key]:w }).join(' ');
+}
+
+// Sidebar Translate
+document.getElementById('translateBtn').addEventListener('click',()=>{
+  const target=document.getElementById('targetLang').value;
+  const msgs=chatWindow.querySelectorAll('.message');
+  if(!msgs.length) return;
+  const last=msgs[msgs.length-1];
+  if(!last.dataset.original) last.dataset.original=last.textContent;
+  last.textContent=mockTranslate(last.dataset.original,target);
+  scrollToBottom();
+});
+document.getElementById('translateAllBtn').addEventListener('click',()=>{
+  const target=document.getElementById('targetLang').value;
+  chatWindow.querySelectorAll('.message').forEach(m=>{ if(!m.dataset.original) m.dataset.original=m.textContent; m.textContent=mockTranslate(m.dataset.original,target); });
+  scrollToBottom();
+});
+
+// Floating Translate
+document.getElementById('dropdownTranslateBtn').addEventListener('click',()=>{
+  const target=document.getElementById('dropdownTargetLang').value;
+  const msgs=chatWindow.querySelectorAll('.message');
+  if(!msgs.length) return;
+  const last=msgs[msgs.length-1];
+  if(!last.dataset.original) last.dataset.original=last.textContent;
+  last.textContent=mockTranslate(last.dataset.original,target);
+  scrollToBottom();
+});
+document.getElementById('dropdownTranslateAllBtn').addEventListener('click',()=>{
+  const target=document.getElementById('dropdownTargetLang').value;
+  chatWindow.querySelectorAll('.message').forEach(m=>{ if(!m.dataset.original) m.dataset.original=m.textContent; m.textContent=mockTranslate(m.dataset.original,target); });
+  scrollToBottom();
+});
+</script>
+</body>
+</html>
