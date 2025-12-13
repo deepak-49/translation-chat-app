@@ -1,246 +1,839 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WhatsApp Clone — Full Screen Responsive</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      background: linear-gradient(135deg, #43cea2, #185a9d);
-    }
-    .app-wrapper {
-      display: flex;
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-    }
-    /* Sidebar */
-    .sidebar {
-      background: #1b1f3a;
-      color: white;
-      width: 280px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .sidebar-top { text-align: center; }
-    .profile-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #43cea2; }
-    .sidebar h5 { margin-top: 10px; font-weight: 600; }
-    .sidebar select, .sidebar input { margin-top: 8px; }
-    .sidebar-bottom { margin-top: 20px; }
-    .language-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 10px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Translator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .chat-container { 
+            display: flex; 
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            box-shadow: none;
+        }
+        
+        .sidebar {
+            width: 320px;
+            min-width: 320px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
+            border-right: none;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            height: 100vh;
+        }
+        
+        .sidebar-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px 20px;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-header h5 {
+            font-weight: 600;
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .search-container {
+            padding: 15px;
+            background: white;
+        }
+        
+        .search-container input {
+            border-radius: 25px;
+            border: 2px solid #e0e0e0;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+        
+        .search-container input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+        
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(to bottom, #e5ddd5 0%, #d2d2d2 100%);
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .chat-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px);
+            pointer-events: none;
+        }
+        
+        .chat-header {
+            background: white;
+            padding: 20px 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            z-index: 10;
+            position: relative;
+        }
+        
+        .chat-header h6 {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .chat-header select {
+            border-radius: 20px;
+            border: 2px solid #e0e0e0;
+            padding: 8px 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .chat-header select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+        
+        .contact-item {
+            padding: 18px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+        }
+        
+        .contact-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+        }
+        
+        .contact-item:hover {
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+        
+        .contact-item.active {
+            background: linear-gradient(90deg, #f8f9ff 0%, #ffffff 100%);
+            box-shadow: inset 0 0 0 1px rgba(102, 126, 234, 0.2);
+        }
+        
+        .contact-item.active::before {
+            transform: scaleY(1);
+        }
+        
+        .contact-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+            margin-right: 15px;
+        }
+        
+        .contact-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .contact-language {
+            font-size: 0.75rem;
+            color: #667eea;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .messages::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .message.sent {
+            justify-content: flex-end;
+        }
+        
+        .message-bubble {
+            max-width: 65%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            word-wrap: break-word;
+        }
+        
+        .message.sent .message-bubble {
+            background: linear-gradient(135deg, #dcf8c6 0%, #b8e994 100%);
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message.received .message-bubble {
+            background: white;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .message-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #333;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            color: rgba(0,0,0,0.5);
+            margin-top: 6px;
+            text-align: right;
+        }
+        
+        .message-input {
+            padding: 20px 25px;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            z-index: 10;
+            position: relative;
+        }
+        
+        .message-input .input-group {
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .message-input input {
+            border: none;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+        }
+        
+        .message-input input:focus {
+            box-shadow: none;
+            border: none;
+        }
+        
+        .message-input .btn {
+            border-radius: 0 25px 25px 0;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .message-input .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .translate-btn {
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            margin-top: 8px;
+            border-radius: 12px;
+            border: 1px solid #667eea;
+            color: #667eea;
+            background: white;
+            transition: all 0.3s;
+        }
+        
+        .translate-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .translation {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(102, 126, 234, 0.2);
+            font-style: italic;
+            color: #667eea;
+            font-size: 0.9rem;
+        }
+        
+        .translation i {
+            margin-right: 6px;
+        }
 
-    /* Chat Area */
-    .chat-area { flex: 1; display: flex; flex-direction: column; background: #f4f6f9; }
-    .chat-header { background: #2c3e50; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 500; }
-    .chat-window { flex: 1; overflow-y: auto; padding: 20px; background-color: white;}
-    .message { max-width: 75%; padding: 12px 16px; border-radius: 20px; margin-bottom: 12px; font-size: 15px; line-height: 1.4; display: inline-block; }
-    .from-me { background: #43cea2; color: #fff; margin-left: auto; border-bottom-right-radius: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-    .from-them { background: #ffffff; color: #333; margin-right: auto; border-bottom-left-radius: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            html, body {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+            
+            body {
+                background: #667eea;
+            }
+            
+            .chat-container {
+                flex-direction: column;
+                box-shadow: none;
+                height: 100vh;
+                width: 100vw;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 50vh;
+                border-right: none;
+                border-bottom: 2px solid rgba(255,255,255,0.2);
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            }
+            
+            .chat-area {
+                height: calc(100vh - 50vh);
+                min-height: 50vh;
+            }
+            
+            .message-bubble {
+                max-width: 85%;
+            }
+            
+            .contact-item {
+                padding: 15px;
+            }
+            
+            .contact-avatar {
+                width: 45px;
+                height: 45px;
+                font-size: 1.5rem;
+            }
+            
+            .messages {
+                padding: 20px 15px;
+            }
+            
+            .message-input {
+                padding: 15px;
+            }
+            
+            .chat-header {
+                padding: 15px 20px;
+            }
+            
+            .sidebar-header {
+                padding: 20px;
+            }
+        }
 
-    .chat-input { display: flex; padding: 12px; background: #ffffff; border-top: 1px solid #ddd; }
-    .chat-input input { flex: 1; border-radius: 30px; padding: 10px 20px; border: 1px solid #ccc; font-size: 15px; }
-    .chat-input button { margin-left: 10px; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; background: #43cea2; color: white; border: none; font-size: 18px; }
-    .chat-input button:hover { background: #3ab58d; }
+        @media (max-width: 576px) {
+            .sidebar {
+                max-height: 40vh;
+            }
+            
+            .chat-area {
+                height: calc(100vh - 40vh);
+                min-height: 60vh;
+            }
+            
+            .message-bubble {
+                max-width: 90%;
+                padding: 10px 14px;
+            }
+            
+            .message-text {
+                font-size: 0.9rem;
+            }
+            
+            .contact-item {
+                padding: 12px 15px;
+            }
+            
+            .contact-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3rem;
+                margin-right: 12px;
+            }
+            
+            .contact-name {
+                font-size: 0.95rem;
+            }
+            
+            .contact-language {
+                font-size: 0.7rem;
+            }
+            
+            .messages {
+                padding: 15px 10px;
+            }
+            
+            .message {
+                margin-bottom: 15px;
+            }
+            
+            .translate-btn {
+                font-size: 0.65rem;
+                padding: 3px 10px;
+            }
+            
+            .translation {
+                font-size: 0.85rem;
+                margin-top: 8px;
+                padding-top: 8px;
+            }
+            
+            .message-input {
+                padding: 12px;
+            }
+            
+            .message-input input {
+                font-size: 0.9rem;
+                padding: 10px 15px;
+            }
+            
+            .message-input .btn {
+                padding: 10px 20px;
+            }
+            
+            .chat-header {
+                padding: 12px 15px;
+            }
+            
+            .chat-header h6 {
+                font-size: 0.95rem;
+            }
+            
+            .sidebar-header {
+                padding: 18px;
+            }
+            
+            .sidebar-header h5 {
+                font-size: 1.1rem;
+            }
+            
+            .search-container {
+                padding: 12px;
+            }
+        }
 
-    /* Responsive */
-    @media (max-width: 991px) {
-      .sidebar { display: none; }
-    }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .sidebar {
+                width: 280px;
+            }
+            
+            .message-bubble {
+                max-width: 70%;
+            }
+        }
 
-    /* Floating language icon */
-    .floating-lang {
-      display: none;
-      position: fixed;
-      bottom: 100px;
-      right: 10px;
-      z-index: 1000;
-    }
-    @media (max-width: 991px) {
-      .floating-lang { display: block; }
-    }
-  </style>
+        @media (orientation: landscape) and (max-height: 600px) {
+            .sidebar {
+                max-height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .chat-area {
+                height: 100vh;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="app-wrapper">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="sidebar-top">
-        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop" class="profile-avatar" alt="avatar">
-        <h5 id="sidebarName">Arun Kumar</h5>
-        <span class="badge bg-light text-dark" id="sidebarLang">EN</span>
+    <div class="chat-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h5 class="mb-0"><i class="fas fa-comments me-2"></i>Chats</h5>
+            </div>
+            <div class="search-container">
+                <input type="search" class="form-control" placeholder="🔍 Search contacts...">
+            </div>
+            <div id="contacts" class="flex-grow-1 overflow-auto"></div>
+        </div>
 
-        <div class="mt-4">
-          <label class="form-label">Display Name</label>
-          <input id="displayName" class="form-control" value="Arun Kumar">
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="chat-header d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="mb-0" id="chatName"><i class="fas fa-user-circle me-2"></i>Select a contact</h6>
+                </div>
+                <select class="form-select form-select-sm w-auto" id="languageSelect"></select>
+            </div>
+            
+            <div id="messages" class="messages"></div>
+            
+            <div class="message-input">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="messageInput" placeholder="Type a message...">
+                    <button class="btn btn-primary" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="mt-3">
-          <label class="form-label">Preferred Language</label>
-          <select id="preferredLang" class="form-select">
-            <option value="en">English</option>
-            <option value="hi">Hindi</option>
-            <option value="ta">Tamil</option>
-            <option value="es">Spanish</option>
-          </select>
-        </div>
-        <button id="saveProfile" class="btn btn-success mt-3 w-100">Save Profile</button>
-      </div>
-
-      <div class="sidebar-bottom">
-        <div class="language-card">
-          <h6>🌐 Language Chat Converter</h6>
-          <select id="targetLang" class="form-select mb-2">
-            <option value="en">English</option>
-            <option value="hi">Hindi</option>
-            <option value="ta">Tamil</option>
-            <option value="es">Spanish</option>
-          </select>
-          <button id="translateBtn" class="btn btn-primary w-100 mb-2">Translate Latest</button>
-          <button id="translateAllBtn" class="btn btn-outline-light w-100">Translate All</button>
-        </div>
-      </div>
     </div>
 
-    <!-- Chat Area -->
-    <div class="chat-area">
-      <div class="chat-header">
-        <div>
-          <strong id="headerName">Arun Kumar</strong>
-          <small class="d-block" id="headerStatus">Online</small>
-        </div>
-      </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const contacts = [
+            { id: 1, name: 'John Doe', avatar: '👨', language: 'es' },
+            { id: 2, name: 'Jane Smith', avatar: '👩', language: 'fr' },
+            { id: 3, name: 'Mike Johnson', avatar: '👨‍💼', language: 'de' },
+            { id: 4, name: 'Sarah Williams', avatar: '👩‍💻', language: 'it' }
+        ];
 
-      <div class="chat-window" id="chatWindow">
-        <div class="message from-them">Hey! How are you?</div>
-        <div class="message from-me">I'm good — working on the new project.</div>
-        <div class="message from-them">That's awesome. Need any help?</div>
-      </div>
+        const supportedLanguages = [
+            { code: 'en', label: 'English' },
+            { code: 'es', label: 'Spanish' },
+            { code: 'fr', label: 'French' },
+            { code: 'de', label: 'German' },
+            { code: 'it', label: 'Italian' },
+            { code: 'pt', label: 'Portuguese' },
+            { code: 'ru', label: 'Russian' },
+            { code: 'ja', label: 'Japanese' },
+            { code: 'ko', label: 'Korean' },
+            { code: 'zh', label: 'Chinese' },
+            { code: 'hi', label: 'Hindi' },
+            { code: 'ta', label: 'Tamil' }
+        ];
 
-      <div class="chat-input">
-        <input id="messageInput" type="text" placeholder="Type a message...">
-        <button id="sendBtn">➤</button>
-      </div>
-    </div>
-  </div>
+        const userLanguage = 'en';
+        // Google Translate API endpoint (free, no API key required)
+        const GOOGLE_TRANSLATE_API = 'https://translate.googleapis.com/translate_a/single';
+        const translateTimeout = 10000;
+        const languageSelect = document.getElementById('languageSelect');
+        
+        // Optional: If you have a Google Cloud Translation API key, set it here
+        // const GOOGLE_CLOUD_API_KEY = 'YOUR_API_KEY_HERE';
+        // const GOOGLE_CLOUD_ENDPOINT = 'https://translation.googleapis.com/language/translate/v2';
 
-  <!-- Floating Language Icon -->
-  <div class="floating-lang d-md-none">
-    <div class="dropdown text-end">
-      <button class="btn btn-light btn-lg" type="button" id="langDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">🌐</button>
-      <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="langDropdownBtn" style="min-width: 220px;">
+        let currentContact = null;
+        let messages = {
+            1: [
+                { id: 1, text: 'Hey there!', sender: 'received', time: '10:30 AM' },
+                { id: 2, text: 'Hello! How are you?', sender: 'sent', time: '10:32 AM' }
+            ]
+        };
 
-        <!-- Preferred Language -->
-        <label class="form-label">Preferred Language</label>
-        <select id="dropdownPreferredLang" class="form-select mb-2">
-          <option value="en">English</option>
-          <option value="hi">Hindi</option>
-          <option value="ta">Tamil</option>
-          <option value="es">Spanish</option>
-        </select>
+        function loadContacts() {
+            const container = document.getElementById('contacts');
+            container.innerHTML = contacts.map(contact => `
+                <div class="contact-item" onclick="selectContact(${contact.id})">
+                    <div class="d-flex align-items-center">
+                        <div class="contact-avatar">${contact.avatar}</div>
+                        <div class="flex-grow-1">
+                            <div class="contact-name">${contact.name}</div>
+                            <div class="contact-language">${contact.language.toUpperCase()}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-        <!-- Target Language -->
-        <label class="form-label mt-2">Translate To</label>
-        <select id="dropdownTargetLang" class="form-select mb-2">
-          <option value="en">English</option>
-          <option value="hi">Hindi</option>
-          <option value="ta">Tamil</option>
-          <option value="es">Spanish</option>
-        </select>
+        function selectContact(id) {
+            currentContact = contacts.find(c => c.id === id);
+            document.getElementById('chatName').textContent = currentContact.name;
+            document.querySelectorAll('.contact-item').forEach((el, i) => {
+                el.classList.toggle('active', contacts[i].id === id);
+            });
+            loadMessages();
+        }
 
-        <button id="dropdownTranslateBtn" class="btn btn-primary w-100 mb-2">Translate Latest</button>
-        <button id="dropdownTranslateAllBtn" class="btn btn-outline-dark w-100">Translate All</button>
-      </ul>
-    </div>
-  </div>
+        function populateLanguageSelect() {
+            languageSelect.innerHTML = supportedLanguages.map(
+                lang => `<option value="${lang.code}">${lang.label}</option>`
+            ).join('');
+            languageSelect.value = 'en';
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-const chatWindow = document.getElementById('chatWindow');
-const messageInput = document.getElementById('messageInput');
-const sendBtn = document.getElementById('sendBtn');
-const displayName = document.getElementById('displayName');
-const preferredLang = document.getElementById('preferredLang');
+        function loadMessages() {
+            if (!currentContact) return;
+            const container = document.getElementById('messages');
+            const msgs = messages[currentContact.id] || [];
+            container.innerHTML = msgs.map(msg => `
+                <div class="message ${msg.sender}">
+                    <div class="message-bubble">
+                        <div class="message-text">${msg.text}</div>
+                        ${msg.translated ? `<div class="translation"><i class="fas fa-language"></i>${msg.translated}</div>` : ''}
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            ${msg.isTranslating ? `<span class="text-muted small"><i class="fas fa-spinner fa-spin me-1"></i>Translating...</span>` :
+                            (!msg.translated ? `<button class="btn btn-sm translate-btn" onclick="translateMessage(${msg.id})">
+                                <i class="fas fa-language"></i> Translate
+                            </button>` : '<div></div>')}
+                            <small class="message-time">${msg.time}</small>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
 
-// Send message
-sendBtn.addEventListener('click', () => {
-  const txt = messageInput.value.trim();
-  if(!txt) return;
-  appendMessage(txt,'me');
-  messageInput.value='';
-  scrollToBottom();
-});
-messageInput.addEventListener('keydown', e => { if(e.key==='Enter') sendBtn.click(); });
+        function sendMessage() {
+            if (!currentContact) return;
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (!text) return;
 
-// Update profile
-document.getElementById('saveProfile').addEventListener('click',()=>{
-  document.getElementById('sidebarName').textContent=displayName.value;
-  document.getElementById('headerName').textContent=displayName.value;
-  document.getElementById('sidebarLang').textContent=preferredLang.value.toUpperCase();
-});
+            if (!messages[currentContact.id]) messages[currentContact.id] = [];
+            messages[currentContact.id].push({
+                id: Date.now(),
+                text,
+                sender: 'sent',
+                time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+            });
 
-function appendMessage(text,who='them'){
-  const div=document.createElement('div');
-  div.className='message '+(who==='me'?'from-me':'from-them');
-  div.textContent=text;
-  chatWindow.appendChild(div);
-}
-function scrollToBottom(){ chatWindow.scrollTop=chatWindow.scrollHeight; }
+            input.value = '';
+            loadMessages();
+        }
 
-// Demo dictionary
-const demoDict={
-  hi: {"Hey! How are you?":"हे! कैसे हो?","I'm good — working on the new project.":"मैं ठीक हूँ — नए प्रोजेक्ट पर काम कर रहा हूँ।","That's awesome. Need any help?":"यह शानदार है। क्या मदद चाहिए?"},
-  ta: {"Hey! How are you?":"ஹே! எப்படி இருக்கிறாய்?","I'm good — working on the new project.":"நான் நலமாக இருக்கிறேன் — புதிய திட்டத்தில் வேலை செய்கிறேன்.","That's awesome. Need any help?":"அது அருமை. உதவி வேண்டுமா?"},
-  es: {"Hey! How are you?":"¡Hola! ¿Cómo estás?","I'm good — working on the new project.":"Estoy bien — trabajando en el nuevo proyecto.","That's awesome. Need any help?":"Eso es genial. ¿Necesitas ayuda?"}
-};
+        async function translateMessage(msgId) {
+            if (!currentContact) return;
+            const msg = messages[currentContact.id].find(m => m.id === msgId);
+            if (!msg) return;
 
-// Mock translator
-function mockTranslate(text,target){
-  if(!target||target==='en') return text;
-  const dict=demoDict[target]||{};
-  if(dict[text]) return dict[text];
-  const common={hi:{'hello':'नमस्ते','hey':'हे','how':'कैसे','are':'है','you':'तुम'},
-                ta:{'hello':'வணக்கம்','hey':'ஹே','how':'எப்படி','are':'உள்ளது','you':'நீ'},
-                es:{'hello':'hola','hey':'hola','how':'cómo','are':'estás','you':'tú'}};
-  const words=text.split(/(\s+)/);
-  const map=common[target]||{};
-  return words.map(w=>{ const key=w.toLowerCase().replace(/[^a-zA-Z\u0900-\u0BFF\u0B80-\u0BFF]/g,''); return map[key]?map[key]:w }).join(' ');
-}
+            const targetLang = languageSelect.value;
+            const sourceLang = msg.sender === 'sent' ? userLanguage : currentContact.language;
+            if (targetLang === sourceLang) {
+                msg.translated = msg.text;
+                loadMessages();
+                return;
+            }
 
-// Sidebar Translate
-document.getElementById('translateBtn').addEventListener('click',()=>{
-  const target=document.getElementById('targetLang').value;
-  const msgs=chatWindow.querySelectorAll('.message');
-  if(!msgs.length) return;
-  const last=msgs[msgs.length-1];
-  if(!last.dataset.original) last.dataset.original=last.textContent;
-  last.textContent=mockTranslate(last.dataset.original,target);
-  scrollToBottom();
-});
-document.getElementById('translateAllBtn').addEventListener('click',()=>{
-  const target=document.getElementById('targetLang').value;
-  chatWindow.querySelectorAll('.message').forEach(m=>{ if(!m.dataset.original) m.dataset.original=m.textContent; m.textContent=mockTranslate(m.dataset.original,target); });
-  scrollToBottom();
-});
+            msg.isTranslating = true;
+            loadMessages();
 
-// Floating Translate
-document.getElementById('dropdownTranslateBtn').addEventListener('click',()=>{
-  const target=document.getElementById('dropdownTargetLang').value;
-  const msgs=chatWindow.querySelectorAll('.message');
-  if(!msgs.length) return;
-  const last=msgs[msgs.length-1];
-  if(!last.dataset.original) last.dataset.original=last.textContent;
-  last.textContent=mockTranslate(last.dataset.original,target);
-  scrollToBottom();
-});
-document.getElementById('dropdownTranslateAllBtn').addEventListener('click',()=>{
-  const target=document.getElementById('dropdownTargetLang').value;
-  chatWindow.querySelectorAll('.message').forEach(m=>{ if(!m.dataset.original) m.dataset.original=m.textContent; m.textContent=mockTranslate(m.dataset.original,target); });
-  scrollToBottom();
-});
-</script>
+            try {
+                const translatedText = await translateText(msg.text, sourceLang, targetLang);
+                msg.translated = translatedText;
+            } catch (error) {
+                console.error(error);
+                msg.translated = 'Translation unavailable. Please check your connection and try again.';
+            } finally {
+                delete msg.isTranslating;
+                loadMessages();
+            }
+        }
+
+        /**
+         * Main translation function using Google Translate API
+         * @param {string} text - Text to translate
+         * @param {string} source - Source language code
+         * @param {string} target - Target language code
+         * @returns {Promise<string>} Translated text
+         */
+        async function translateText(text, source, target) {
+            // Auto-detect source language if 'auto' is provided
+            if (source === 'auto' || !source) {
+                source = 'auto';
+            }
+
+            try {
+                // Try Google Translate free API first
+                const translatedText = await translateWithGoogleAPI(text, source, target);
+                return translatedText;
+            } catch (error) {
+                console.error('Google Translate API error:', error);
+                throw new Error('Translation failed. Please try again.');
+            }
+        }
+
+        /**
+         * Translate using Google Translate API (free, no API key required)
+         * @param {string} text - Text to translate
+         * @param {string} source - Source language code
+         * @param {string} target - Target language code
+         * @returns {Promise<string>} Translated text
+         */
+        async function translateWithGoogleAPI(text, source, target) {
+            // Handle long text by splitting into chunks
+            const maxLength = 5000;
+            if (text.length > maxLength) {
+                const chunks = splitTextIntoChunks(text, maxLength);
+                const translatedChunks = [];
+                
+                for (const chunk of chunks) {
+                    const translated = await translateChunk(chunk, source, target);
+                    translatedChunks.push(translated);
+                }
+                
+                return translatedChunks.join(' ');
+            }
+            
+            return await translateChunk(text, source, target);
+        }
+
+        /**
+         * Translate a single chunk of text
+         */
+        async function translateChunk(text, source, target) {
+            const url = `${GOOGLE_TRANSLATE_API}?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`;
+            
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), translateTimeout);
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    signal: controller.signal,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Google Translate API returns data in format: [[["translated text",...],...],...]
+                if (data && Array.isArray(data) && data[0] && Array.isArray(data[0])) {
+                    let translatedText = '';
+                    for (const item of data[0]) {
+                        if (item && item[0]) {
+                            translatedText += item[0];
+                        }
+                    }
+                    return translatedText || text;
+                }
+                
+                throw new Error('Invalid response format from Google Translate');
+            } catch (error) {
+                clearTimeout(timeoutId);
+                if (error.name === 'AbortError') {
+                    throw new Error('Translation request timed out');
+                }
+                throw error;
+            }
+        }
+
+        /**
+         * Split long text into chunks for translation
+         */
+        function splitTextIntoChunks(text, maxLength) {
+            const chunks = [];
+            let start = 0;
+
+            while (start < text.length) {
+                let end = Math.min(start + maxLength, text.length);
+
+                // Try to break at sentence boundaries
+                if (end < text.length) {
+                    const lastPeriod = text.lastIndexOf('.', end);
+                    const lastExclamation = text.lastIndexOf('!', end);
+                    const lastQuestion = text.lastIndexOf('?', end);
+                    const lastNewline = text.lastIndexOf('\n', end);
+                    
+                    const breakPoint = Math.max(lastPeriod, lastExclamation, lastQuestion, lastNewline);
+                    
+                    if (breakPoint > start + maxLength * 0.5) {
+                        end = breakPoint + 1;
+                    } else {
+                        // Fallback to word boundary
+                        const lastSpace = text.lastIndexOf(' ', end);
+                        if (lastSpace > start + maxLength * 0.5) {
+                            end = lastSpace + 1;
+                        }
+                    }
+                }
+
+                chunks.push(text.slice(start, end).trim());
+                start = end;
+            }
+
+            return chunks.filter(chunk => chunk.length > 0);
+        }
+
+        document.getElementById('messageInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        languageSelect.addEventListener('change', () => {
+            if (!currentContact) return;
+            const msgs = messages[currentContact.id] || [];
+            msgs.forEach(msg => delete msg.translated);
+            loadMessages();
+        });
+
+        populateLanguageSelect();
+        loadContacts();
+    </script>
 </body>
 </html>
