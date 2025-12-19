@@ -355,18 +355,19 @@
                 width: 100vw;
             }
             
+            /* Make sidebar shorter so chat area is taller on mobile */
             .sidebar {
                 width: 100%;
                 height: auto;
-                max-height: 50vh;
+                max-height: 40vh;
                 border-right: none;
                 border-bottom: 2px solid rgba(255,255,255,0.2);
                 box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             }
             
             .chat-area {
-                height: calc(100vh - 50vh);
-                min-height: 50vh;
+                height: calc(100vh - 40vh);
+                min-height: 60vh;
             }
             
             .message-bubble {
@@ -401,13 +402,14 @@
         }
 
         @media (max-width: 576px) {
+            /* Extra compact layout for very small screens */
             .sidebar {
-                max-height: 40vh;
+                max-height: 30vh;
             }
             
             .chat-area {
-                height: calc(100vh - 40vh);
-                min-height: 60vh;
+                height: calc(100vh - 30vh);
+                min-height: 70vh;
             }
             
             .message-bubble {
@@ -471,7 +473,7 @@
             }
             
             .chat-header {
-                padding: 12px 15px;
+                padding: 10px 12px;
             }
             
             .chat-header h6 {
@@ -479,11 +481,11 @@
             }
             
             .sidebar-header {
-                padding: 18px;
+                padding: 14px;
             }
             
             .sidebar-header h5 {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
             
             .search-container {
@@ -499,6 +501,7 @@
             .message-bubble {
                 max-width: 70%;
             }
+
         }
 
         @media (orientation: landscape) and (max-height: 600px) {
