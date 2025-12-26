@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,32 +13,33 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
-        html, body {
+
+        html,
+        body {
             width: 100%;
             height: 100%;
             margin: 0;
             padding: 0;
             overflow: hidden;
         }
-        
-        body { 
+
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             height: 100vh;
             width: 100vw;
             overflow: hidden;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        
-        .chat-container { 
-            display: flex; 
+
+        .chat-container {
+            display: flex;
             height: 100vh;
             width: 100vw;
             margin: 0;
             padding: 0;
             box-shadow: none;
         }
-        
+
         .sidebar {
             width: 320px;
             min-width: 320px;
@@ -45,41 +47,41 @@
             border-right: none;
             display: flex;
             flex-direction: column;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             height: 100vh;
         }
-        
+
         .sidebar-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 25px 20px;
             color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .sidebar-header h5 {
             font-weight: 600;
             font-size: 1.3rem;
             letter-spacing: 0.5px;
         }
-        
+
         .search-container {
             padding: 15px;
             background: white;
         }
-        
+
         .search-container input {
             border-radius: 25px;
             border: 2px solid #e0e0e0;
             padding: 10px 20px;
             transition: all 0.3s;
         }
-        
+
         .search-container input:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
             outline: none;
         }
-        
+
         .chat-area {
             flex: 1;
             display: flex;
@@ -89,9 +91,8 @@
             width: 100%;
             height: 100vh;
             overflow: hidden;
-            min-height: 0;
         }
-        
+
         .chat-area::before {
             content: '';
             position: absolute;
@@ -99,26 +100,25 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: 
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px);
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, .03) 2px, rgba(0, 0, 0, .03) 4px);
             pointer-events: none;
         }
-        
+
         .chat-header {
             background: white;
             padding: 20px 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
             z-index: 10;
             position: relative;
-            flex-shrink: 0;
         }
-        
+
         .chat-header h6 {
             font-weight: 600;
             font-size: 1.1rem;
             color: #333;
         }
-        
+
         .chat-header select {
             border-radius: 20px;
             border: 2px solid #e0e0e0;
@@ -126,13 +126,13 @@
             font-weight: 500;
             transition: all 0.3s;
         }
-        
+
         .chat-header select:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
             outline: none;
         }
-        
+
         .contact-item {
             padding: 18px 20px;
             border-bottom: 1px solid #f0f0f0;
@@ -141,7 +141,7 @@
             background: white;
             position: relative;
         }
-        
+
         .contact-item::before {
             content: '';
             position: absolute;
@@ -153,21 +153,21 @@
             transform: scaleY(0);
             transition: transform 0.3s;
         }
-        
+
         .contact-item:hover {
             background: #f8f9ff;
             transform: translateX(5px);
         }
-        
+
         .contact-item.active {
             background: linear-gradient(90deg, #f8f9ff 0%, #ffffff 100%);
             box-shadow: inset 0 0 0 1px rgba(102, 126, 234, 0.2);
         }
-        
+
         .contact-item.active::before {
             transform: scaleY(1);
         }
-        
+
         .contact-avatar {
             width: 50px;
             height: 50px;
@@ -180,13 +180,13 @@
             box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
             margin-right: 15px;
         }
-        
+
         .contact-name {
             font-weight: 600;
             color: #333;
             margin-bottom: 4px;
         }
-        
+
         .contact-language {
             font-size: 0.75rem;
             color: #667eea;
@@ -194,108 +194,107 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         .messages {
             flex: 1;
             overflow-y: auto;
             padding: 25px;
             z-index: 1;
             position: relative;
-            min-height: 0;
         }
-        
+
         .messages::-webkit-scrollbar {
             width: 6px;
         }
-        
+
         .messages::-webkit-scrollbar-track {
             background: transparent;
         }
-        
+
         .messages::-webkit-scrollbar-thumb {
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 10px;
         }
-        
+
         .message {
             margin-bottom: 20px;
             display: flex;
             animation: fadeIn 0.3s ease;
         }
-        
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
                 transform: translateY(10px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
+
         .message.sent {
             justify-content: flex-end;
         }
-        
+
         .message-bubble {
             max-width: 65%;
             padding: 12px 16px;
             border-radius: 18px;
             position: relative;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             word-wrap: break-word;
         }
-        
+
         .message.sent .message-bubble {
             background: linear-gradient(135deg, #dcf8c6 0%, #b8e994 100%);
             border-bottom-right-radius: 4px;
         }
-        
+
         .message.received .message-bubble {
             background: white;
             border-bottom-left-radius: 4px;
         }
-        
+
         .message-text {
             font-size: 0.95rem;
             line-height: 1.5;
             color: #333;
         }
-        
+
         .message-time {
             font-size: 0.7rem;
-            color: rgba(0,0,0,0.5);
+            color: rgba(0, 0, 0, 0.5);
             margin-top: 6px;
             text-align: right;
         }
-        
+
         .message-input {
             padding: 20px 25px;
             background: white;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
-            z-index: 10;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+            /* z-index: 10; */
             position: relative;
-            flex-shrink: 0;
         }
-        
+
         .message-input .input-group {
             border-radius: 25px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .message-input input {
             border: none;
             padding: 12px 20px;
             font-size: 0.95rem;
         }
-        
+
         .message-input input:focus {
             box-shadow: none;
             border: none;
         }
-        
+
         .message-input .btn {
             border-radius: 0 25px 25px 0;
             padding: 12px 25px;
@@ -303,12 +302,12 @@
             border: none;
             transition: all 0.3s;
         }
-        
+
         .message-input .btn:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
-        
+
         .translate-btn {
             font-size: 0.7rem;
             padding: 4px 12px;
@@ -319,14 +318,14 @@
             background: white;
             transition: all 0.3s;
         }
-        
+
         .translate-btn:hover {
             background: #667eea;
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
         }
-        
+
         .translation {
             margin-top: 10px;
             padding-top: 10px;
@@ -335,167 +334,165 @@
             color: #667eea;
             font-size: 0.9rem;
         }
-        
+
         .translation i {
             margin-right: 6px;
         }
 
         /* Responsive Styles */
         @media (max-width: 768px) {
-            html, body {
+
+            html,
+            body {
                 width: 100%;
                 height: 100%;
                 overflow: hidden;
             }
-            
+
             body {
                 background: #667eea;
             }
-            
+
             .chat-container {
                 flex-direction: column;
                 box-shadow: none;
                 height: 100vh;
                 width: 100vw;
             }
-            
-            /* Make sidebar shorter so chat area is taller on mobile */
+
             .sidebar {
                 width: 100%;
                 height: auto;
-                max-height: 40vh;
+                max-height: 50vh;
                 border-right: none;
-                border-bottom: 2px solid rgba(255,255,255,0.2);
-                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             }
-            
+
             .chat-area {
-                flex: 1;
-                height: auto;
-                min-height: 0;
-                max-height: calc(100vh - 40vh);
+                height: calc(100vh - 50vh);
+                min-height: 50vh;
             }
-            
+
             .message-bubble {
                 max-width: 85%;
             }
-            
+
             .contact-item {
                 padding: 15px;
             }
-            
+
             .contact-avatar {
                 width: 45px;
                 height: 45px;
                 font-size: 1.5rem;
             }
-            
+
             .messages {
                 padding: 20px 15px;
             }
-            
+
+
             .message-input {
-                padding: 15px;
+                position: relative;
+                bottom: 40px;
             }
-            
+
             .chat-header {
                 padding: 15px 20px;
             }
-            
+
             .sidebar-header {
                 padding: 20px;
             }
         }
 
         @media (max-width: 576px) {
-            /* Extra compact layout for very small screens */
             .sidebar {
-                max-height: 30vh;
+                max-height: 40vh;
             }
-            
+
             .chat-area {
-                flex: 1;
-                height: auto;
-                min-height: 0;
-                max-height: calc(100vh - 30vh);
+                height: calc(100vh - 40vh);
+                min-height: 60vh;
             }
-            
+
             .message-bubble {
                 max-width: 90%;
                 padding: 10px 14px;
             }
-            
+
             .message-text {
                 font-size: 0.9rem;
             }
-            
+
             .contact-item {
                 padding: 12px 15px;
             }
-            
+
             .contact-avatar {
                 width: 40px;
                 height: 40px;
                 font-size: 1.3rem;
                 margin-right: 12px;
             }
-            
+
             .contact-name {
                 font-size: 0.95rem;
             }
-            
+
             .contact-language {
                 font-size: 0.7rem;
             }
-            
+
             .messages {
                 padding: 15px 10px;
             }
-            
+
             .message {
                 margin-bottom: 15px;
             }
-            
+
             .translate-btn {
                 font-size: 0.65rem;
                 padding: 3px 10px;
             }
-            
+
             .translation {
                 font-size: 0.85rem;
                 margin-top: 8px;
                 padding-top: 8px;
             }
-            
+
             .message-input {
                 padding: 12px;
             }
-            
+
             .message-input input {
                 font-size: 0.9rem;
                 padding: 10px 15px;
             }
-            
+
             .message-input .btn {
                 padding: 10px 20px;
             }
-            
+
             .chat-header {
-                padding: 10px 12px;
+                padding: 12px 15px;
             }
-            
+
             .chat-header h6 {
                 font-size: 0.95rem;
             }
-            
+
             .sidebar-header {
-                padding: 14px;
+                padding: 18px;
             }
-            
+
             .sidebar-header h5 {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
-            
+
             .search-container {
                 padding: 12px;
             }
@@ -505,18 +502,9 @@
             .sidebar {
                 width: 280px;
             }
-            
-            .chat-area {
-                height: 100vh;
-                min-height: 0;
-            }
-            
+
             .message-bubble {
                 max-width: 70%;
-            }
-            
-            .message-input {
-                flex-shrink: 0;
             }
         }
 
@@ -525,13 +513,14 @@
                 max-height: 100vh;
                 overflow-y: auto;
             }
-            
+
             .chat-area {
                 height: 100vh;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="chat-container">
         <!-- Sidebar -->
@@ -553,9 +542,9 @@
                 </div>
                 <select class="form-select form-select-sm w-auto" id="languageSelect"></select>
             </div>
-            
+
             <div id="messages" class="messages"></div>
-            
+
             <div class="message-input">
                 <div class="input-group">
                     <input type="text" class="form-control" id="messageInput" placeholder="Type a message...">
@@ -596,7 +585,7 @@
         const GOOGLE_TRANSLATE_API = 'https://translate.googleapis.com/translate_a/single';
         const translateTimeout = 10000;
         const languageSelect = document.getElementById('languageSelect');
-        
+
         // Optional: If you have a Google Cloud Translation API key, set it here
         // const GOOGLE_CLOUD_API_KEY = 'YOUR_API_KEY_HERE';
         // const GOOGLE_CLOUD_ENDPOINT = 'https://translation.googleapis.com/language/translate/v2';
@@ -651,7 +640,7 @@
                         ${msg.translated ? `<div class="translation"><i class="fas fa-language"></i>${msg.translated}</div>` : ''}
                         <div class="d-flex justify-content-between align-items-center mt-2">
                             ${msg.isTranslating ? `<span class="text-muted small"><i class="fas fa-spinner fa-spin me-1"></i>Translating...</span>` :
-                            (!msg.translated ? `<button class="btn btn-sm translate-btn" onclick="translateMessage(${msg.id})">
+                    (!msg.translated ? `<button class="btn btn-sm translate-btn" onclick="translateMessage(${msg.id})">
                                 <i class="fas fa-language"></i> Translate
                             </button>` : '<div></div>')}
                             <small class="message-time">${msg.time}</small>
@@ -744,15 +733,15 @@
             if (text.length > maxLength) {
                 const chunks = splitTextIntoChunks(text, maxLength);
                 const translatedChunks = [];
-                
+
                 for (const chunk of chunks) {
                     const translated = await translateChunk(chunk, source, target);
                     translatedChunks.push(translated);
                 }
-                
+
                 return translatedChunks.join(' ');
             }
-            
+
             return await translateChunk(text, source, target);
         }
 
@@ -761,10 +750,10 @@
          */
         async function translateChunk(text, source, target) {
             const url = `${GOOGLE_TRANSLATE_API}?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`;
-            
+
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), translateTimeout);
-            
+
             try {
                 const response = await fetch(url, {
                     method: 'GET',
@@ -773,15 +762,15 @@
                         'Accept': 'application/json'
                     }
                 });
-                
+
                 clearTimeout(timeoutId);
-                
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                
+
                 const data = await response.json();
-                
+
                 // Google Translate API returns data in format: [[["translated text",...],...],...]
                 if (data && Array.isArray(data) && data[0] && Array.isArray(data[0])) {
                     let translatedText = '';
@@ -792,7 +781,7 @@
                     }
                     return translatedText || text;
                 }
-                
+
                 throw new Error('Invalid response format from Google Translate');
             } catch (error) {
                 clearTimeout(timeoutId);
@@ -819,9 +808,9 @@
                     const lastExclamation = text.lastIndexOf('!', end);
                     const lastQuestion = text.lastIndexOf('?', end);
                     const lastNewline = text.lastIndexOf('\n', end);
-                    
+
                     const breakPoint = Math.max(lastPeriod, lastExclamation, lastQuestion, lastNewline);
-                    
+
                     if (breakPoint > start + maxLength * 0.5) {
                         end = breakPoint + 1;
                     } else {
@@ -855,4 +844,5 @@
         loadContacts();
     </script>
 </body>
+
 </html>
