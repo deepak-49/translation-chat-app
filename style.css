@@ -382,6 +382,7 @@
       position: relative;
       display: flex;
       align-items: center;
+      z-index:1;
   }
 
   .message-input .input-group {
@@ -679,4 +680,5 @@
       .chat-area {
           height: 100vh;
       }
+
   }
