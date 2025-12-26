@@ -382,7 +382,6 @@
       position: relative;
       display: flex;
       align-items: center;
-      bottom:50px;
   }
 
   .message-input .input-group {
@@ -682,4 +681,5 @@
       }
 
   }
+
 
