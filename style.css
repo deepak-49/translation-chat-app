@@ -537,8 +537,7 @@
 
       .message-input {
           padding: 8px 12px;
-          background-color: #667781;
-          bottom: 50px;
+          z-index:2;
       }
 
       .chat-header {
@@ -683,6 +682,7 @@
       }
 
   }
+
 
 
 
