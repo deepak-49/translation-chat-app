@@ -412,7 +412,6 @@
       width: 48px;
       height: 48px;
       padding: 0;
-
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       border: none;
       transition: all 0.2s;
@@ -425,7 +424,7 @@
   }
 
   .message-input .btn:hover {
-      background: #005c4b;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 25%);
   }
 
   .message-input .btn:active {
@@ -540,7 +539,7 @@
           padding: 8px 12px;
           z-index: 2;
           position: sticky;
-          bottom: 50px;
+          bottom: 55px;
       }
 
       .chat-header {
