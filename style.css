@@ -540,7 +540,7 @@
           padding: 8px 12px;
           z-index: 2;
           position: sticky;
-          bottom: 0;
+          bottom:60px;
       }
 
       .chat-header {
@@ -683,4 +683,5 @@
       .chat-area {
           height: 100vh;
       }
+
   }
